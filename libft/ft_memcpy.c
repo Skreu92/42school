@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Etienne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/15 11:47:04 by Etienne           #+#    #+#             */
-/*   Updated: 2017/04/16 09:34:17 by Etienne          ###   ########.fr       */
+/*   Created: 2017/04/15 12:45:09 by Etienne           #+#    #+#             */
+/*   Updated: 2017/04/16 09:35:27 by Etienne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
-void *ft_memset(void *b, int c, size_t len)
+void *memcpy(void *restrict dst, const void *restrict src, size_t n)
 {
 	int i;
-	unsigned char *str;
 
-	str = (unsigned char *)b;
-	i = 0;
-	if (len == 0)
-		return (b);
-	while (i < len)
+	i = -1;
+	while (i++ < n)
 	{
-		*str = (unsigned char)c;
-		str++;
-		i++;
+		*dst = *src;
+		dst++;
+		src++;
 	}
-	return (b);
-}
-
-int main()
-{
-	char str[7] = "coucou";
-	int i = 'd';
-	printf("Real:%s\nMine:%s\n",memset(str, 'd', 7), ft_memset(str, 'd', 10));	
-	return (0);
 }

@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Etienne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/15 11:47:04 by Etienne           #+#    #+#             */
-/*   Updated: 2017/04/16 09:34:17 by Etienne          ###   ########.fr       */
+/*   Created: 2017/04/16 09:35:43 by Etienne           #+#    #+#             */
+/*   Updated: 2017/04/16 12:45:14 by Etienne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
 #include <string.h>
 
-void *ft_memset(void *b, int c, size_t len)
+void *ft_memccpy(void *restrict dst, const void *restrict src, int c, size_t n)
 {
-	int i;
-	unsigned char *str;
+	char *s;
+	char *d;
 
-	str = (unsigned char *)b;
-	i = 0;
-	if (len == 0)
-		return (b);
-	while (i < len)
+	s = (char *)src;
+	d = (char *)dst;
+	while (n--)
 	{
-		*str = (unsigned char)c;
-		str++;
-		i++;
+		*d++ = *s;
+		if ((unsigned char)*s == (unsigned char)c)
+			return (d);
+		s++;
 	}
-	return (b);
+	return (NULL);
 }
 
 int main()
 {
-	char str[7] = "coucou";
-	int i = 'd';
-	printf("Real:%s\nMine:%s\n",memset(str, 'd', 7), ft_memset(str, 'd', 10));	
+	char d[10] = "coucou";
+	char s[10] = "aaaaaa";
+	int c = 97;
+	printf("Real%s\nMine:%s\n",memccpy(d,s,c,5),ft_memccpy(d,s,c,5));
 	return (0);
 }
