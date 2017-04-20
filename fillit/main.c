@@ -6,7 +6,7 @@
 /*   By: hdelanoe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 15:14:35 by hdelanoe          #+#    #+#             */
-/*   Updated: 2017/04/18 17:31:41 by hdelanoe         ###   ########.fr       */
+/*   Updated: 2017/04/20 17:18:03 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include "fill.h"
 
-int	ft_golst(char *str);
+int	ft_golst(char *str, t_piece **tab);
 
 int	main(int argc, char **argv)
 {
@@ -23,7 +24,8 @@ int	main(int argc, char **argv)
 	int		fd;
 	char	*str;
 	size_t	i;
-
+	t_piece **tab;
+	
 	if (argc != 2)
 	{
 		if (argc < 2)
@@ -37,6 +39,7 @@ int	main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	while (read(fd, &buff, 1) != 0)
 		i++;
+	printf("taille:%zu\n", i);
 	if(!(str = (char*)malloc(sizeof(char) * i)))
 		return (0);
 	close (fd);
@@ -48,7 +51,8 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	str[i] = '\0';
-	if (!(ft_golst(str)))
+	tab = (t_piece **)malloc(sizeof(t_piece *) * 27);
+	if (!(ft_golst(str, tab)))
 	{
 		write(2, "File is unvalid.\n", 17);
 		return (0);
