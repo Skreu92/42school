@@ -6,7 +6,7 @@
 /*   By: hdelanoe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/18 17:07:50 by hdelanoe          #+#    #+#             */
-/*   Updated: 2017/04/20 17:51:13 by etranchi         ###   ########.fr       */
+/*   Updated: 2017/04/20 18:52:40 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,8 @@ t_piece *create_piece(char *str, int nb_tetri)
 	alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	piece = malloc_piece();
 	piece->letter = alpha[nb_tetri];
-	while (i < 20)
+	printf("string:%s", str);
+	while (i < 21)
 	{
 		if (str[i] == '#')
 		{
@@ -132,16 +133,16 @@ t_piece *create_piece(char *str, int nb_tetri)
 				piece->init->x = i % 5;
 				piece->init->y = i / 5;
 			printf("ref_x:%i  ref_y:%i\n",piece->init->x, piece->init->y);
-		j++;
 			}
 			if (str[i + 1] == '#')
 			{
-				ft_set_tuple(piece, j, i + 1);
+				ft_set_tuple(piece, j, i);
 			}
 			else if (str[i + 5] == '#')
 			{
-				ft_set_tuple(piece, j, i + 5);
+				ft_set_tuple(piece, j, i);
 			}
+			j++;
 		}
 		i++;
 	}
@@ -156,21 +157,22 @@ void ft_set_tuple(t_piece *piece, int nb, int i)
 	
 	ref_x = piece->init->x;
 	ref_y = piece->init->y;
-
+	
+	printf("indice :%i\n", i);
 	if (nb == 1)
 	{
-		piece->first->x = (i % 5);
-		piece->first->y = (i / 5);
+		piece->first->x = (i % 5) - ref_x;
+		piece->first->y = (i / 5) - ref_y;
 	}
 	if (nb == 2)
 	{
-		piece->second->x = i % 5;
-		piece->second->y = i / 5;
+		piece->second->x = (i % 5) - ref_x;
+		piece->second->y = (i / 5) - ref_y;
 	}
 	if (nb == 3)
 	{
-		piece->third->x = i % 5;
-		piece->third->y = i / 5;
+		piece->third->x = (i % 5) - ref_x;
+		piece->third->y = (i / 5) - ref_y;
 	}
 }
 
@@ -182,5 +184,5 @@ void add_piece_tab(t_piece **tab, t_piece *piece)
 	tab[i] = piece;
 
 
-	printf("piece:%c \n[%i][%i]\n[%i][%i]\n[%i][%i]\n[%i][%i]\n",piece->letter,0, 0, piece->first->x, piece->first->y, piece->second->x,piece->second->y,piece->third->x,piece->third->y);
+	printf("piece:%c \n[%i][%i]\n[%i][%i]\n[%i][%i]\n[%i][%i]\n",piece->letter,piece->init->x, piece->init->y, piece->first->x, piece->first->y, piece->second->x,piece->second->y,piece->third->x,piece->third->y);
 }
