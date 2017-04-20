@@ -1,34 +1,37 @@
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: etranchi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/17 12:20:04 by etranchi          #+#    #+#             */
+/*   Updated: 2017/04/19 15:20:52 by etranchi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int ft_strlen(char *str)
+#include "libft.h"
+
+char			*ft_strsub(char const *s, unsigned int start, size_t size)
 {
-	int i;
+	unsigned int	len;
+	char			*ctn;
+	unsigned int	i;
+	unsigned int	j;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char *ft_strsub(char const *s, unsigned int start ,size_t size)
-{
-	int len;
-	char *ctn;
-	size_t i;
-
-	if (!*s)
+	if (!s)
 		return (NULL);
+	j = (unsigned int)size;
 	len = ft_strlen(s);
-	if (start > len)
+	if (start > len || start + size > len)
 		return (NULL);
-	ctn = (char *)malloc(len * sizeof(char))
+	ctn = (char *)malloc((j + 1) * sizeof(char));
 	if (!ctn)
 		return (NULL);
 	i = 0;
-	while (i < size && s[start] != '\0')
+	while (i < j && s[start] != '\0')
 	{
-		ctn[i] = s[start + i];		
+		ctn[i] = s[start + i];
 		i++;
 	}
 	ctn[i] = '\0';

@@ -1,7 +1,18 @@
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strsplit.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: etranchi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/17 12:10:03 by etranchi          #+#    #+#             */
+/*   Updated: 2017/04/19 14:50:13 by etranchi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int get_nb_words(char const *s, char c)
+#include "libft.h"
+
+static int		get_nb_words(char *s, char c)
 {
 	int i;
 	int count;
@@ -14,21 +25,20 @@ int get_nb_words(char const *s, char c)
 			i++;
 		if (s[i] != c && s[i] != '\0')
 		{
-			while (s[i] && s[i] != c)
-				i++;
 			count++;
+			while (s[i] != '\0' && s[i] != c)
+				i++;
 		}
-		i++;
 	}
 	return (count);
 }
 
-char *make_my_string(char const *s, char c, int nb)
+static char		*make_my_string(char *s, char c, int nb)
 {
-	int i;
-	char *ctn;
-	int j;
-	int k;
+	int		i;
+	char	*ctn;
+	int		j;
+	int		k;
 
 	j = -1;
 	i = 0;
@@ -43,7 +53,7 @@ char *make_my_string(char const *s, char c, int nb)
 			k++;
 		}
 	}
-	if (!(ctn = (char *)malloc((i + 1) * sizeof(char)))
+	if (!(ctn = (char *)malloc((i + 1) * sizeof(char))))
 		return (NULL);
 	j = -1;
 	while (++j < k)
@@ -52,30 +62,26 @@ char *make_my_string(char const *s, char c, int nb)
 	return (ctn);
 }
 
-char **ft_strsplit(char const *s, char c)
+char			**ft_strsplit(char const *s, char c)
 {
-	char **tab;
-	int i;
-	int words;
+	char	**tab;
+	int		i;
+	int		words;
+	char	*str;
 
-	words = get_nb_words(s, c);
-	i = 0;	
+	if (!s || !c)
+		return (NULL);
+	str = (char *)s;
+	words = get_nb_words(str, c);
+	i = 0;
 	tab = (char **)malloc((words + 1) * sizeof(char *));
 	if (!tab)
-		return (NULL);	
+		return (NULL);
 	tab[words] = NULL;
 	while (i < words)
 	{
-		tab[i] = make_my_string(s, c, i);
+		tab[i] = make_my_string(str, c, i);
 		i++;
 	}
 	return (tab);
 }
-
-int main()
-{
-	char d[30] = "**coucou**toi***";
-	char **cc = ft_strsplit(d, '*');
-	return (0);
-}
-

@@ -6,13 +6,14 @@
 /*   By: Etienne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 09:35:43 by Etienne           #+#    #+#             */
-/*   Updated: 2017/04/16 12:45:14 by Etienne          ###   ########.fr       */
+/*   Updated: 2017/04/20 10:45:53 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
-#include <string.h>
 
-void *ft_memccpy(void *restrict dst, const void *restrict src, int c, size_t n)
+#include "libft.h"
+
+void	*ft_memccpy(void *dst, const void *src, int c,
+		size_t n)
 {
 	char *s;
 	char *d;
@@ -27,13 +28,4 @@ void *ft_memccpy(void *restrict dst, const void *restrict src, int c, size_t n)
 		s++;
 	}
 	return (NULL);
-}
-
-int main()
-{
-	char d[10] = "coucou";
-	char s[10] = "aaaaaa";
-	int c = 97;
-	printf("Real%s\nMine:%s\n",memccpy(d,s,c,5),ft_memccpy(d,s,c,5));
-	return (0);
 }

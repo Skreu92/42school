@@ -1,14 +1,28 @@
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: etranchi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/17 11:55:54 by etranchi          #+#    #+#             */
+/*   Updated: 2017/04/19 15:42:05 by etranchi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void ft_putendl(char const *s)
+#include "libft.h"
+
+void	ft_putendl(char const *s)
 {
 	int i;
 
 	i = 0;
-	while (s1[i])
+	if (!s)
+		return ;
+	while (s[i])
 	{
 		write(1, &s[i], 1);
 		i++;
 	}
-	write(1, '\n', 1);
+	write(1, "\n", 1);
 }

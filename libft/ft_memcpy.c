@@ -6,21 +6,24 @@
 /*   By: Etienne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 12:45:09 by Etienne           #+#    #+#             */
-/*   Updated: 2017/04/16 09:35:27 by Etienne          ###   ########.fr       */
+/*   Updated: 2017/04/20 10:46:29 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <string.h>
-#include <stdlib.h>
 
-void *memcpy(void *restrict dst, const void *restrict src, size_t n)
+#include "libft.h"
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	int i;
+	char	*d;
+	char	*s;
 
-	i = -1;
-	while (i++ < n)
+	d = (char *)dst;
+	s = (char *)src;
+	while (n--)
 	{
-		*dst = *src;
-		dst++;
-		src++;
+		*d = *s;
+		d++;
+		s++;
 	}
+	return (dst);
 }

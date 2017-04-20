@@ -1,37 +1,63 @@
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: etranchi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/17 13:23:49 by etranchi          #+#    #+#             */
+/*   Updated: 2017/04/19 15:03:37 by etranchi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int ft_strlen(char *str)
+#include "libft.h"
+
+static size_t	ft_start(char const *str)
 {
-	int i;
+	size_t i;
 
 	i = 0;
-	while (str[i])
+	while (str[i] == '\n' || str[i] == '\t' || str[i] == ' ')
 		i++;
 	return (i);
 }
 
-char *ft_strtrim(char const *s)
+static size_t	ft_end(char const *str)
 {
-	char *ctn;
-	int len;
-	int i;
-	int j;
+	size_t i;
 
 	i = 0;
-	while (s[i] < 33)
-		s++;
-	len = ft_strlen(s);
-	while (s[len - i] < 33)
+	while (str[i])
 		i++;
-	ctn = (char *)malloc((len + 1) * sizeof(char));
+	while (str[i] == '\0' || str[i] == '\n' || str[i] == '\t' || str[i] == ' ')
+		i--;
+	return (i);
+}
+
+char			*ft_strtrim(char const *s)
+{
+	size_t	start;
+	size_t	end;
+	char	*ctn;
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	start = ft_start(s);
+	if (s[start] == '\0')
+		return (ft_strdup(""));
+	end = ft_end(s);
+	if (start > end)
+		return (ft_strdup(""));
+	ctn = (char *)malloc((end - start + 2) * sizeof(char));
 	if (!ctn)
 		return (NULL);
-	ctn[len] = '\0';
-	j = 0;
-	while (j < len - i && s != '\0')
+	while (i < (end - start + 1))
 	{
-		ctn[j] = s[j];
-		j++;	
+		ctn[i] = s[start + i];
+		i++;
 	}
-	return (ctn);			
+	ctn[i] = '\0';
+	return (ctn);
 }

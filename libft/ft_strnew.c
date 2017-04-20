@@ -1,14 +1,26 @@
-#include <stdlib.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: etranchi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/17 12:09:21 by etranchi          #+#    #+#             */
+/*   Updated: 2017/04/18 14:07:36 by etranchi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char *ft_strnew(size_t size)
+#include "libft.h"
+
+char	*ft_strnew(size_t size)
 {
 	char	*str;
-	
-	str = malloc(size);
+
+	str = malloc(size + 1);
 	if (!str)
 		return (NULL);
+	str[size] = '\0';
 	while (size--)
-		str[size] = '\0';
+		str[size] = 0;
 	return (str);
 }

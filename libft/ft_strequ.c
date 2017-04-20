@@ -1,41 +1,28 @@
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: etranchi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/17 13:26:43 by etranchi          #+#    #+#             */
+/*   Updated: 2017/04/19 14:36:39 by etranchi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int ft_strlen(char const *str)
+#include "libft.h"
+
+int	ft_strequ(char const *s1, char const *s2)
 {
-	int i;
+	unsigned long i;
 
 	i = 0;
-	while (str[i])
+	if (!s1 || !s2)
+		return (0);
+	while (s1[i] == s2[i] && (s1[i] != '\0' || s2[i] != '\0'))
 		i++;
-	return (i);
-}
-
-int ft_strequ(char const *s1, char const *s2)
-{
-	int len1;
-	int len2;
-	int len;
-	int i;
-
-	i = 0;
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	if (len1 >= len2)
-		len = len2;
+	if (s1[i] == s2[i])
+		return (1);
 	else
-		len = len1;
-	while (i < len)
-	{
-		if (s1[i] != s2[i])
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int main(int ac, char **av)
-{
-	printf("%d\n", ft_strequ(av[1], av[2]));
-return (0);
-
+		return (0);
 }

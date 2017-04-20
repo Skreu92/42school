@@ -1,22 +1,26 @@
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: etranchi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/17 12:06:08 by etranchi          #+#    #+#             */
+/*   Updated: 2017/04/19 14:49:42 by etranchi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int ft_strlen(char const *str)
+#include "libft.h"
+
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int i;
+	size_t	len;
+	char	*ctn;
+	int		i;
+	int		j;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char *ft_strjoin(char const *s1, char const *s2)
-{
-	int len;
-	char *ctn;
-	int i;
-	int j;
-
+	if (!s1 || !s2)
+		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
 	ctn = (char *)malloc((len + 1) * sizeof(char));
 	if (!ctn)
@@ -35,10 +39,4 @@ char *ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	return (ctn);
-}
-
-int main()
-{
-	printf("%s\n", ft_strjoin("coucoy", "tranchier"));
-return (0);
 }

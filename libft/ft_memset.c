@@ -6,16 +6,16 @@
 /*   By: Etienne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 11:47:04 by Etienne           #+#    #+#             */
-/*   Updated: 2017/04/16 09:34:17 by Etienne          ###   ########.fr       */
+/*   Updated: 2017/04/17 17:30:48 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
-#include <string.h>
 
-void *ft_memset(void *b, int c, size_t len)
+#include "libft.h"
+
+void	*ft_memset(void *b, int c, size_t len)
 {
-	int i;
-	unsigned char *str;
+	size_t			i;
+	unsigned char	*str;
 
 	str = (unsigned char *)b;
 	i = 0;
@@ -28,12 +28,4 @@ void *ft_memset(void *b, int c, size_t len)
 		i++;
 	}
 	return (b);
-}
-
-int main()
-{
-	char str[7] = "coucou";
-	int i = 'd';
-	printf("Real:%s\nMine:%s\n",memset(str, 'd', 7), ft_memset(str, 'd', 10));	
-	return (0);
 }

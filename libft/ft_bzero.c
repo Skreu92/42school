@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Etienne <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: etranchi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 12:38:33 by Etienne           #+#    #+#             */
-/*   Updated: 2017/04/15 12:44:47 by Etienne          ###   ########.fr       */
+/*   Updated: 2017/04/17 16:14:10 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <stdlib.h>
 #include <string.h>
 
-void ft_bzero(void *s, size_t n)
+void	ft_bzero(void *s, size_t n)
 {
-	int i;
+	char			*str;
+	unsigned int	i;
 
-	i = 0;
-	if (n == 0)
-		return ;
-	while (i < n)
+	i = (unsigned int)n;
+	str = (char *)s;
+	while (i--)
 	{
-		(char)s[i] = 0;
-		i++;
+		str[i] = 0;
 	}
 }
