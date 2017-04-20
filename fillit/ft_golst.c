@@ -6,7 +6,7 @@
 /*   By: hdelanoe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/18 17:07:50 by hdelanoe          #+#    #+#             */
-/*   Updated: 2017/04/20 18:52:40 by etranchi         ###   ########.fr       */
+/*   Updated: 2017/04/20 22:50:06 by Etienne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ t_piece *malloc_piece(void)
 	t_piece *piece;
 
 	piece = (t_piece *)malloc(sizeof(t_piece));
-	piece->letter = (char)malloc(sizeof(char));
 	piece->init = (t_tuple *)malloc(sizeof(t_tuple));
 	piece->first = (t_tuple *)malloc(sizeof(t_tuple));
 	piece->second = (t_tuple *)malloc(sizeof(t_tuple));
@@ -116,33 +115,24 @@ t_piece *create_piece(char *str, int nb_tetri)
 	char *alpha;
 	t_piece *piece;
 	int i;
-	int j;
+	int nb;
 
 	i = 0;
-	j = 0;
+	nb = 0;
 	alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	piece = malloc_piece();
+	if (!(piece = malloc_piece()))
+		return (NULL);
 	piece->letter = alpha[nb_tetri];
 	printf("string:%s", str);
 	while (i < 21)
 	{
 		if (str[i] == '#')
 		{
-			if (j == 0)
+			if (str[i] == '#')
 			{
-				piece->init->x = i % 5;
-				piece->init->y = i / 5;
-			printf("ref_x:%i  ref_y:%i\n",piece->init->x, piece->init->y);
+				ft_set_tuple(piece, nb, i);
+				nb++;
 			}
-			if (str[i + 1] == '#')
-			{
-				ft_set_tuple(piece, j, i);
-			}
-			else if (str[i + 5] == '#')
-			{
-				ft_set_tuple(piece, j, i);
-			}
-			j++;
 		}
 		i++;
 	}
@@ -157,8 +147,11 @@ void ft_set_tuple(t_piece *piece, int nb, int i)
 	
 	ref_x = piece->init->x;
 	ref_y = piece->init->y;
-	
-	printf("indice :%i\n", i);
+	if (nb == 0)
+	{
+		piece->init->x = (i % 5) - ref_x;
+		piece->init->y = (i / 5) - ref_y;
+	}
 	if (nb == 1)
 	{
 		piece->first->x = (i % 5) - ref_x;
@@ -184,5 +177,5 @@ void add_piece_tab(t_piece **tab, t_piece *piece)
 	tab[i] = piece;
 
 
-	printf("piece:%c \n[%i][%i]\n[%i][%i]\n[%i][%i]\n[%i][%i]\n",piece->letter,piece->init->x, piece->init->y, piece->first->x, piece->first->y, piece->second->x,piece->second->y,piece->third->x,piece->third->y);
+	printf("piece:%c \n[0][0]\n[%i][%i]\n[%i][%i]\n[%i][%i]\n",piece->letter, piece->first->x, piece->first->y, piece->second->x,piece->second->y,piece->third->x,piece->third->y);
 }
