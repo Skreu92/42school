@@ -36,6 +36,7 @@ int init_map(t_piece **tab, int size)
 	ft_print_map(map);
 	return (1);
 }
+
 void check_all_piece_put(t_map *map)
 {
 	int i;
@@ -51,7 +52,7 @@ void check_all_piece_put(t_map *map)
 
 int try_put_piece(t_map *map, int x, int y, int nb_piece)
 {
-	if(x == map->size_tab - 1  && y == map->size_tab - 1 )
+	if(x == map->size_tab && y == map->size_tab)
 	{
 		check_all_piece_put(map);
 		return (1);
@@ -65,11 +66,16 @@ int try_put_piece(t_map *map, int x, int y, int nb_piece)
 			draw_piece(map->map, map->tab_piece[nb_piece], x , y);
 			map->tab_piece[nb_piece]->putted = 1;
 			printf("piece%d putted\n", nb_piece);
-			nb_piece++;
+			try_put_piece(map, x, y, nb_piece + 1);
 		}
 		else
 		{
-			try_put_piece(map, (x + 1)% map->size_tab, (x + (y + 1))/map->size_tab, nb_piece);
+			if((x + 1)/ map->size_tab == 1)
+			{
+				y++;
+				x = 0;
+			}
+			try_put_piece(map, (x + 1) % map->size_tab, y, nb_piece);
 		}
 	}
 	return (1);
