@@ -6,7 +6,7 @@
 /*   By: hdelanoe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 15:14:35 by hdelanoe          #+#    #+#             */
-/*   Updated: 2017/04/21 12:20:56 by etranchi         ###   ########.fr       */
+/*   Updated: 2017/04/22 11:05:56 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	while (read(fd, &buff, 1) != 0)
 		i++;
-	printf("taille:%zu\n", i);
 	if(!(str = (char*)malloc(sizeof(char) * i)))
 		return (0);
 	close (fd);
@@ -51,12 +50,12 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	str[i] = '\0';
-	tab = (t_piece **)malloc(sizeof(t_piece *) * 27);
+	if(!(tab = (t_piece **)malloc(sizeof(t_piece *) * 27)))
+			return (0);
 	if (!(ft_golst(str, tab)))
 	{
 		write(2, "File is unvalid.\n", 17);
 		return (0);
 	}
-	printf("%s", str);
 	return (0);
 }

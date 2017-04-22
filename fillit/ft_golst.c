@@ -6,7 +6,7 @@
 /*   By: hdelanoe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/18 17:07:50 by hdelanoe          #+#    #+#             */
-/*   Updated: 2017/04/21 16:13:55 by etranchi         ###   ########.fr       */
+/*   Updated: 2017/04/22 11:13:31 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,32 @@ int check_error(int countbox, int placebox)
     return (1);
 }
 
-int add_piece_tab(t_piece **tab, t_piece *piece);
-t_piece *create_piece(char *str, int nb_tetri);
 int	ft_golst(char *str, t_piece **tab)
+{
+	if (!(check_str(str)))
+		return (0);
+	if (!(init_tab(str, tab)))
+		return (0);
+	int i = 0;
+	while(tab[i])
+	{
+		printf("caractere piece:%c\n", tab[i]->letter);
+		i++;
+	}
+	if(!(init_map(tab, i)))
+		return (0);
+	return (1);
+}
+
+int check_str(char *str)
 {
 	size_t	i;
 	int 	county;
 	int		countx;
 	int		countbox;
 	int 	placebox;
-	int 	count_tetri;
-	size_t j;
 
 	i = 0;
-	count_tetri = 0;
 	while (str[i] != '\0')
 	{
 		county = 0;
@@ -89,10 +101,22 @@ int	ft_golst(char *str, t_piece **tab)
 		}
 		if (!(check_error(countbox, placebox)))
 			return (0);
-		printf("indice : %zu", i);
 		i++;
 	}
+	return (1);
+}
+
+int init_tab(char *str, t_piece **tab)
+{
+	size_t j;
+	int count_tetri;
+	size_t i;
+
+	i = 0;
+	while (str[i])
+		i++;
 	j = 0;
+	count_tetri = 0;
 	while (str[j] != '\0' && i > j)
 	{
 
@@ -104,102 +128,5 @@ int	ft_golst(char *str, t_piece **tab)
 		j += 20 + count_tetri;
 		count_tetri++;
 	}
-	return (1);
-}
-
-t_piece *malloc_piece(void)
-{
-	t_piece *piece;
-
-	if(!(piece = (t_piece *)malloc(sizeof(t_piece))))
-		return (NULL);
-	if(!(piece->init = (t_tuple *)malloc(sizeof(t_tuple))))
-		return (NULL);
-	if(!(piece->first = (t_tuple *)malloc(sizeof(t_tuple))))
-		return (NULL);
-	if(!(piece->second = (t_tuple *)malloc(sizeof(t_tuple))))
-		return (NULL);
-	if(!(piece->third = (t_tuple *)malloc(sizeof(t_tuple))))
-		return (NULL);
-	return (piece);
-}
-
-
-int ft_set_tuple(t_piece *piece, int nb, int i);
-
-t_piece *create_piece(char *str, int nb_tetri)
-{
-	char *alpha;
-	t_piece *piece;
-	int i;
-	int nb;
-
-	i = 0;
-	nb = 0;
-	alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	if (!(piece = malloc_piece()))
-		return (NULL);
-	piece->letter = alpha[nb_tetri];
-	printf("string:%s", str);
-	while (i < 21)
-	{
-		if (str[i] == '#')
-		{
-			if (str[i] == '#')
-			{
-				if (!(ft_set_tuple(piece, nb, i)))
-						return (NULL);
-				nb++;
-			}
-		}
-		i++;
-	}
-	return (piece);
-}
-
-
-int ft_set_tuple(t_piece *piece, int nb, int i)
-{
-	int ref_x;
-	int ref_y;
-	
-	if (piece == NULL)
-		return (0);
-	ref_x = piece->init->x;
-	ref_y = piece->init->y;
-	if (nb == 0)
-	{
-		piece->init->x = (i % 5) - ref_x;
-		piece->init->y = (i / 5) - ref_y;
-	}
-	if (nb == 1)
-	{
-		piece->first->x = (i % 5) - ref_x;
-		piece->first->y = (i / 5) - ref_y;
-	}
-	if (nb == 2)
-	{
-		piece->second->x = (i % 5) - ref_x;
-		piece->second->y = (i / 5) - ref_y;
-	}
-	if (nb == 3)
-	{
-		piece->third->x = (i % 5) - ref_x;
-		piece->third->y = (i / 5) - ref_y;
-	}
-	return (1);
-}
-
-int add_piece_tab(t_piece **tab, t_piece *piece)
-{
-	int i;
-
-	if(piece == NULL)
-		return (0);
-	i = piece->letter - 'A';
-	tab[i] = piece;
-
-
-	printf("piece:%c \n[0][0]\n[%i][%i]\n[%i][%i]\n[%i][%i]\n",piece->letter, piece->first->x, piece->first->y, piece->second->x,piece->second->y,piece->third->x,piece->third->y);
 	return (1);
 }
