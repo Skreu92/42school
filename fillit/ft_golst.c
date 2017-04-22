@@ -6,7 +6,7 @@
 /*   By: hdelanoe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/18 17:07:50 by hdelanoe          #+#    #+#             */
-/*   Updated: 2017/04/20 22:50:06 by Etienne          ###   ########.fr       */
+/*   Updated: 2017/04/21 16:13:55 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int check_error(int countbox, int placebox)
     return (1);
 }
 
-void add_piece_tab(t_piece **tab, t_piece *piece);
+int add_piece_tab(t_piece **tab, t_piece *piece);
 t_piece *create_piece(char *str, int nb_tetri);
 int	ft_golst(char *str, t_piece **tab)
 {
@@ -57,6 +57,7 @@ int	ft_golst(char *str, t_piece **tab)
 	int		countbox;
 	int 	placebox;
 	int 	count_tetri;
+	size_t j;
 
 	i = 0;
 	count_tetri = 0;
@@ -88,9 +89,20 @@ int	ft_golst(char *str, t_piece **tab)
 		}
 		if (!(check_error(countbox, placebox)))
 			return (0);
-		add_piece_tab(tab,create_piece(&str[i - 20], count_tetri));
-		count_tetri++;
+		printf("indice : %zu", i);
 		i++;
+	}
+	j = 0;
+	while (str[j] != '\0' && i > j)
+	{
+
+		if(!(add_piece_tab(tab,create_piece(&str[j], count_tetri))))
+		{
+			write(2,"erreur au malloc", 16);
+			return (0);
+		}
+		j += 20 + count_tetri;
+		count_tetri++;
 	}
 	return (1);
 }
@@ -99,16 +111,21 @@ t_piece *malloc_piece(void)
 {
 	t_piece *piece;
 
-	piece = (t_piece *)malloc(sizeof(t_piece));
-	piece->init = (t_tuple *)malloc(sizeof(t_tuple));
-	piece->first = (t_tuple *)malloc(sizeof(t_tuple));
-	piece->second = (t_tuple *)malloc(sizeof(t_tuple));
-	piece->third = (t_tuple *)malloc(sizeof(t_tuple));
+	if(!(piece = (t_piece *)malloc(sizeof(t_piece))))
+		return (NULL);
+	if(!(piece->init = (t_tuple *)malloc(sizeof(t_tuple))))
+		return (NULL);
+	if(!(piece->first = (t_tuple *)malloc(sizeof(t_tuple))))
+		return (NULL);
+	if(!(piece->second = (t_tuple *)malloc(sizeof(t_tuple))))
+		return (NULL);
+	if(!(piece->third = (t_tuple *)malloc(sizeof(t_tuple))))
+		return (NULL);
 	return (piece);
 }
 
 
-void ft_set_tuple(t_piece *piece, int nb, int i);
+int ft_set_tuple(t_piece *piece, int nb, int i);
 
 t_piece *create_piece(char *str, int nb_tetri)
 {
@@ -130,7 +147,8 @@ t_piece *create_piece(char *str, int nb_tetri)
 		{
 			if (str[i] == '#')
 			{
-				ft_set_tuple(piece, nb, i);
+				if (!(ft_set_tuple(piece, nb, i)))
+						return (NULL);
 				nb++;
 			}
 		}
@@ -140,11 +158,13 @@ t_piece *create_piece(char *str, int nb_tetri)
 }
 
 
-void ft_set_tuple(t_piece *piece, int nb, int i)
+int ft_set_tuple(t_piece *piece, int nb, int i)
 {
 	int ref_x;
 	int ref_y;
 	
+	if (piece == NULL)
+		return (0);
 	ref_x = piece->init->x;
 	ref_y = piece->init->y;
 	if (nb == 0)
@@ -167,15 +187,19 @@ void ft_set_tuple(t_piece *piece, int nb, int i)
 		piece->third->x = (i % 5) - ref_x;
 		piece->third->y = (i / 5) - ref_y;
 	}
+	return (1);
 }
 
-void add_piece_tab(t_piece **tab, t_piece *piece)
+int add_piece_tab(t_piece **tab, t_piece *piece)
 {
 	int i;
 
+	if(piece == NULL)
+		return (0);
 	i = piece->letter - 'A';
 	tab[i] = piece;
 
 
 	printf("piece:%c \n[0][0]\n[%i][%i]\n[%i][%i]\n[%i][%i]\n",piece->letter, piece->first->x, piece->first->y, piece->second->x,piece->second->y,piece->third->x,piece->third->y);
+	return (1);
 }
