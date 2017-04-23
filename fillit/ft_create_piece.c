@@ -43,17 +43,15 @@ void	set_zero_tuple(t_tuple *tuple)
 
 t_piece *create_piece(char *str, int nb_tetri)
 {
-	char *alpha;
 	t_piece *piece;
 	int i;
 	int nb;
 
 	i = 0;
 	nb = 0;
-	alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	if (!(piece = malloc_piece()))
 		return (NULL);
-	piece->letter = alpha[nb_tetri];
+	piece->letter = 'A' + nb_tetri;
 	piece->putted = 0;
 	while (i < 21)
 	{
@@ -109,11 +107,8 @@ int add_piece_tab(t_piece **tab, t_piece *piece)
 	int i;
 
 	if(piece == NULL)
-		return (0);
+		return (1);
 	i = piece->letter - 'A';
 	tab[i] = piece;
-
-
-	printf("piece:%c \n[0][0]\n[%i][%i]\n[%i][%i]\n[%i][%i]\n",piece->letter, piece->first->x, piece->first->y, piece->second->x,piece->second->y,piece->third->x,piece->third->y);
-	return (1);
+	return (0);
 }

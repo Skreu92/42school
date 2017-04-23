@@ -47,19 +47,14 @@ int check_error(int countbox, int placebox)
     return (1);
 }
 
-int	ft_golst(char *str, t_piece **tab)
+int	ft_golst(char *str)
 {
+	t_piece **tab;
 	if (!(check_str(str)))
 		return (0);
-	if (!(init_tab(str, tab)))
+	if (!(tab = init_tab(str)))
 		return (0);
-	int i = 0;
-	while(tab[i])
-	{
-		printf("caractere piece:%c\n", tab[i]->letter);
-		i++;
-	}
-	if(!(init_map(tab, i)))
+	if(!(init_map(tab, 2)))
 		return (0);
 	return (1);
 }
@@ -106,27 +101,30 @@ int check_str(char *str)
 	return (1);
 }
 
-int init_tab(char *str, t_piece **tab)
+t_piece **init_tab(char *str)
 {
 	size_t j;
 	int count_tetri;
 	size_t i;
+	t_piece **tab;
 
 	i = 0;
 	while (str[i])
 		i++;
+
+	if(!(tab = (t_piece **)malloc(sizeof(t_piece *) * ((i / 20) + 1))))
+		return (0);
 	j = 0;
 	count_tetri = 0;
 	while (str[j] != '\0' && i > j)
 	{
-
-		if(!(add_piece_tab(tab,create_piece(&str[j], count_tetri))))
+		if(add_piece_tab(tab,create_piece(&str[j], count_tetri)))
 		{
 			write(2,"erreur au malloc", 16);
 			return (0);
 		}
-		j += 20 + count_tetri;
 		count_tetri++;
+		j += 21;
 	}
-	return (1);
+	return (tab);
 }

@@ -16,7 +16,6 @@
 #include <stdio.h>
 #include "fill.h"
 
-int	ft_golst(char *str, t_piece **tab);
 
 int	main(int argc, char **argv)
 {
@@ -24,7 +23,6 @@ int	main(int argc, char **argv)
 	int		fd;
 	char	*str;
 	size_t	i;
-	t_piece **tab;
 	
 	if (argc != 2)
 	{
@@ -50,9 +48,7 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	str[i] = '\0';
-	if(!(tab = (t_piece **)malloc(sizeof(t_piece *) * 27)))
-			return (0);
-	if (!(ft_golst(str, tab)))
+	if (!(ft_golst(str)))
 	{
 		write(2, "File is unvalid.\n", 17);
 		return (0);
