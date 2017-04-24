@@ -49,13 +49,17 @@ int check_error(int countbox, int placebox)
 
 int	ft_golst(char *str)
 {
-	t_piece **tab;
+	t_piece *lst;
+	t_map *map;
+
 	if (!(check_str(str)))
 		return (0);
-	if (!(tab = init_tab(str)))
+	if (!(lst = init_tab(str)))
 		return (0);
-	if(!(init_map(tab, 2)))
-		return (0);
+	printf("RAYANNNN\n");
+	map = init_map(lst);
+	printf("AHHH");
+	ft_solve(map);
 	return (1);
 }
 
@@ -101,30 +105,62 @@ int check_str(char *str)
 	return (1);
 }
 
-t_piece **init_tab(char *str)
+t_map *init_map(t_piece *lst)
+{
+	t_map *map;
+	int i;
+	int size;
+
+	i = 1;
+	lst = lst->next;
+	if(!(map = (t_map *)malloc(sizeof(t_map))))
+		return (0);
+	while (lst && lst->next != NULL)
+	{
+		printf("%c\n", lst->letter);
+		lst = lst->next;
+		i++;
+	}
+	map->nb_tetri = i;
+	map->lst_piece = lst;
+	map->size_map = ( i * 4 );
+	if(!(map->map = (char **)malloc(sizeof(char*) * (map->size_map + 1))))
+		return (0);
+	printf("ahhh\n");
+	map->map[map->size_map] = NULL;
+	size = map->size_map ;
+	printf("size = %d\n", size);
+	while (size-- > 0)
+	{
+		if(!(map->map[size] = (char *)malloc(sizeof(char) * (map->size_map + 1))))
+			return (0);
+		map->map[size][map->size_map] = '\0';
+	}
+	map->size_map = map->size_map;
+	draw_empty_map(map);
+	printf("fin\n");
+	return (map);
+}
+
+t_piece *init_tab(char *str)
 {
 	size_t j;
 	int count_tetri;
 	size_t i;
-	t_piece **tab;
+	t_piece *lst;
 
 	i = 0;
+	if (!(lst = (t_piece *)malloc(sizeof(t_piece))))
+		return (NULL);
 	while (str[i])
 		i++;
-
-	if(!(tab = (t_piece **)malloc(sizeof(t_piece *) * ((i / 20) + 1))))
-		return (0);
 	j = 0;
 	count_tetri = 0;
 	while (str[j] != '\0' && i > j)
 	{
-		if(add_piece_tab(tab,create_piece(&str[j], count_tetri)))
-		{
-			write(2,"erreur au malloc", 16);
-			return (0);
-		}
+		lst = add_piece_tab(lst,create_piece(&str[j], count_tetri));
 		count_tetri++;
 		j += 21;
 	}
-	return (tab);
+	return (lst);
 }

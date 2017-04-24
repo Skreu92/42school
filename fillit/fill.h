@@ -31,15 +31,18 @@ typedef struct s_piece
 	t_tuple *second;
 	t_tuple *third;
 	int putted;
+	struct s_piece *next;
 }				t_piece;
 typedef struct s_map
 {
-	t_piece **tab_piece;
-	int size_tab;
+	t_piece *lst_piece;
+	int size_map;
 	int nb_tetri;
 	char **map;
 }				t_map;
 
+
+void ft_solve(t_map *map);
 int check_mate(char *str, int i, int countx, int county);
 int check_error(int countbox, int placebox);
 int ft_golst(char *str);
@@ -47,13 +50,13 @@ t_piece *malloc_piece(void);
 void set_zero_tuple(t_tuple *tuple);
 t_piece *create_piece(char *str, int nb_tetri);
 int ft_set_tuple(t_piece *piece, int nb, int i);
-int add_piece_tab(t_piece **tab, t_piece *piece);
-t_piece **init_tab(char *str);
+t_piece *add_piece_tab(t_piece *lst, t_piece *piece);
+t_piece *init_tab(char *str);
 int check_str(char *str);
-int init_map(t_piece **tab, int i);
+t_map *init_map(t_piece *lst);
 int try_put_piece(t_map *map, int x, int y, int nb_piece);
 void draw_empty_map(t_map *map);
-int ft_may_pose(t_map *map, t_piece *piece, int x, int y);
+void ft_may_pose(t_map *map, t_piece *piece, int x, int y);
 void draw_piece(char **map, t_piece *piece, int x, int y);
 int check_value_tuple(t_map *map, int x, int y, t_tuple *tuple);
 void ft_print_map(t_map *map);

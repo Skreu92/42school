@@ -30,6 +30,9 @@ t_piece *malloc_piece(void)
 	if(!(piece->third = (t_tuple *)malloc(sizeof(t_tuple))))
 		return (NULL);
 	set_zero_tuple(piece->third);
+	if (!(piece->next = (t_piece *)malloc(sizeof(t_piece))))
+		return (NULL);
+	piece->next = NULL;
 	return (piece);
 }
 
@@ -102,13 +105,17 @@ int ft_set_tuple(t_piece *piece, int nb, int i)
 	return (1);
 }
 
-int add_piece_tab(t_piece **tab, t_piece *piece)
+t_piece *add_piece_tab(t_piece *lst, t_piece *piece)
 {
-	int i;
-
-	if(piece == NULL)
-		return (1);
-	i = piece->letter - 'A';
-	tab[i] = piece;
-	return (0);
+	if (!(lst->letter >= 'A' && lst->letter <= 'Z'))
+	{
+		printf("piece:%c\n", piece->letter);
+		lst = piece;
+		return (lst);
+	}
+	while (lst->next)
+		lst = lst->next;
+	lst->next = piece;
+	printf("lst:%c\n", lst->next->letter);
+	return (lst);
 }
