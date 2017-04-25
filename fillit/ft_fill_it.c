@@ -37,71 +37,86 @@ void ft_print_map(t_map *map)
 	int i;
 	i = 0;
 	int j;
-
-	printf("sizze : %i\n", map->size_map);
-	while (map->map[i] && i < map->size_map)
+	while (i < map->best_size)
 	{
 		j = -1;
-		while (map->map[i][++j] && j < map->size_map)
-			write(1, &map->map[i][j], 1);
+		while (j++ < map->best_size)
+			write(1, &map->best_map[i][j], 1);
 		write(1, "\n", 1);
 		i++;
 	}
 }
 
-void draw_empty_map(t_map *map)
+void draw_empty_map(char **map)
 {
 	int i;
 	int j;
 
-	j = 0;
 	i = 0;
-	while (map->map[i] != NULL)
+	while (map[i])
 	{
-		ft_memset(map->map[i], '.',map->size_map);
 		j = 0;
+		while (map[i][j])
+		{
+			map[i][j] = '.';
+			j++;
+		}
 		i++;
 	}
 }
 int check_value_tuple(t_map *map, int x ,int y, t_tuple *tuple)
 {
-	if (y + tuple->y >= map->size_map || x + tuple->x >= map->size_map)
-		return (1);
-	if (map->map[y + tuple->y][x + tuple->x] == '.')
-	{
-		return (0);
-	}
-	else
-		return (1);
+	if (x + tuple->x > -1) 
+		if (y + tuple->y < map->size_map && x + tuple->x < map->size_map)
+			if (map->map[y + tuple->y][x + tuple->x] == '.')
+				return (1);
+	return (0);
+}
+
+int ft_to_check(t_map *map,t_piece *piece, int x, int y)
+{
+	if (check_value_tuple(map, x, y, piece->init))
+		if (check_value_tuple(map, x, y, piece->first))
+			if (check_value_tuple(map, x, y, piece->second))
+				if (check_value_tuple(map, x, y, piece->third))
+				{
+					return (0);
+				}
+	return (1);
 }
 
 void ft_may_pose(t_map *map, t_piece *piece, int x, int y)
 {
 	int map_size;
-	char **mapi;
 
-	map_size = map->size_map;
-	mapi = map->map;
-	if(mapi[y][x] == '.')
-		if (!(check_value_tuple(map, x , y ,piece->first))) 
-			if (!(check_value_tuple(map, x, y, piece->second))) 
-				if (!(check_value_tuple(map, x, y, piece->third)))
-					if(mapi[y + piece->first->y][x + piece->first->x] == '.')					
-						if(mapi[y + piece->second->y][x + piece->second->x] == '.')
-							if(mapi[y + piece->third->y][x + ABS(piece->third->x)] == '.')
-							{
-								draw_piece(mapi, piece, x, y);
-								ft_solve(map);
-							}
-	return ;
+	if (ft_to_check(map,piece,x,y))
+		return ;
+
+		draw_clear_piece(map, piece, x, y, 0);
+
+	ft_solve(map, x, y);
+
+	draw_clear_piece(map,piece, x,y, 1);
 }
 
-void draw_piece(char **map, t_piece *piece, int x, int y)
+void draw_clear_piece(t_map *map, t_piece *piece, int x, int y, int value)
 {
-	map[y][x] = piece->letter;
-	map[y + piece->first->y][x + piece->first->x] = piece->letter;
-	map[y + piece->second->y][x + piece->second->x] = piece->letter;
-	map[y + piece->third->y][x + piece->third->x] = piece->letter;
-	piece->putted = 1;
+	char c;
+
+	if (value == 0)
+	{
+		piece->putted = 1;
+		c = piece->letter;
+	}
+	else
+	{
+		piece->putted = 0;
+		c = '.';
+
+	}
+	map->map[y][x] = c;
+	map->map[y + piece->first->y][x + piece->first->x] = c;
+	map->map[y + piece->second->y][x + piece->second->x] = c;
+	map->map[y + piece->third->y][x + piece->third->x] = c;	
 
 }

@@ -39,10 +39,12 @@ typedef struct s_map
 	int size_map;
 	int nb_tetri;
 	char **map;
+	char **best_map;
+	int best_size;
 }				t_map;
 
 
-void ft_solve(t_map *map);
+void ft_solve(t_map *map,int x, int y);
 int check_mate(char *str, int i, int countx, int county);
 int check_error(int countbox, int placebox);
 int ft_golst(char *str);
@@ -55,12 +57,14 @@ t_piece *init_tab(char *str);
 int check_str(char *str);
 t_map *init_map(t_piece *lst);
 int try_put_piece(t_map *map, int x, int y, int nb_piece);
-void draw_empty_map(t_map *map);
+void draw_empty_map(char **map);
 void ft_may_pose(t_map *map, t_piece *piece, int x, int y);
-void draw_piece(char **map, t_piece *piece, int x, int y);
+void draw_clear_piece(t_map *map, t_piece *piece, int x, int y, int value);
 int check_value_tuple(t_map *map, int x, int y, t_tuple *tuple);
 void ft_print_map(t_map *map);
 void check_all_piece_put(t_map *map);
 void		ft_scale_map(t_map *map);
+int ft_to_check(t_map *map,t_piece *piece, int x, int y);
+void		ft_save(t_map *map);
 
 #endif

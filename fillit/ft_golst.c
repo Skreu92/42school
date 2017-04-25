@@ -56,10 +56,13 @@ int	ft_golst(char *str)
 		return (0);
 	if (!(lst = init_tab(str)))
 		return (0);
-	printf("RAYANNNN\n");
+//	while(lst)
+//	{
+//		printf("coco: %c\n",lst->letter);
+//		lst = lst->next;
+//	}
 	map = init_map(lst);
-	printf("AHHH");
-	ft_solve(map);
+	ft_solve(map, -1, -1);
 	return (1);
 }
 
@@ -81,7 +84,7 @@ int check_str(char *str)
 		while (county != 4)
 		{
 			countx = 0;
-			while (str[i] != '\n')
+			while (str[i] && str[i] != '\n')
 			{
 				if (str[i] == '#')
 				{
@@ -110,35 +113,46 @@ t_map *init_map(t_piece *lst)
 	t_map *map;
 	int i;
 	int size;
+	t_piece *tmp;
 
-	i = 1;
-	lst = lst->next;
+	tmp = lst;
+	i = 0;
 	if(!(map = (t_map *)malloc(sizeof(t_map))))
 		return (0);
-	while (lst && lst->next != NULL)
+	while (tmp)
 	{
-		printf("%c\n", lst->letter);
-		lst = lst->next;
+		printf("ttt:%c%d\n",tmp->letter, i);
+		tmp = tmp->next;
 		i++;
 	}
 	map->nb_tetri = i;
 	map->lst_piece = lst;
-	map->size_map = ( i * 4 );
+	printf("jjjj:%c\n i %d\n",lst->letter, i );
+	i = i * 4;
+	map->size_map = i/2;
+	map->best_size = i/2;
 	if(!(map->map = (char **)malloc(sizeof(char*) * (map->size_map + 1))))
 		return (0);
-	printf("ahhh\n");
+	if(!(map->best_map = (char **)malloc(sizeof(char*) * (map->size_map + 1))))
+		return (0);
 	map->map[map->size_map] = NULL;
-	size = map->size_map ;
-	printf("size = %d\n", size);
-	while (size-- > 0)
+	size = 0;
+	while (size < map->size_map)
 	{
 		if(!(map->map[size] = (char *)malloc(sizeof(char) * (map->size_map + 1))))
 			return (0);
+		if(!(map->best_map[size] = (char *)malloc(sizeof(char) * (map->size_map + 1))))
+			return (0);
 		map->map[size][map->size_map] = '\0';
+		i = 0;
+		while (i < map->size_map)
+		{
+			map->map[size][i] = '.';
+			i++;
+		}
+		size++;
 	}
-	map->size_map = map->size_map;
-	draw_empty_map(map);
-	printf("fin\n");
+	//map = draw_empty_map(map);
 	return (map);
 }
 
@@ -148,9 +162,11 @@ t_piece *init_tab(char *str)
 	int count_tetri;
 	size_t i;
 	t_piece *lst;
-
+	t_piece *tmp;
 	i = 0;
 	if (!(lst = (t_piece *)malloc(sizeof(t_piece))))
+		return (NULL);
+	if (!(tmp = (t_piece *)malloc(sizeof(t_piece))))
 		return (NULL);
 	while (str[i])
 		i++;
@@ -158,7 +174,9 @@ t_piece *init_tab(char *str)
 	count_tetri = 0;
 	while (str[j] != '\0' && i > j)
 	{
-		lst = add_piece_tab(lst,create_piece(&str[j], count_tetri));
+		tmp = add_piece_tab(lst,create_piece(&str[j], count_tetri));
+		if (count_tetri == 0)
+			lst = tmp;
 		count_tetri++;
 		j += 21;
 	}
