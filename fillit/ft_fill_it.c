@@ -87,14 +87,12 @@ int ft_to_check(t_map *map,t_piece *piece, int x, int y)
 
 void ft_may_pose(t_map *map, t_piece *piece, int x, int y)
 {
-	int map_size;
 
 	if (ft_to_check(map,piece,x,y))
 		return ;
+	draw_clear_piece(map, piece, x, y, 0);
 
-		draw_clear_piece(map, piece, x, y, 0);
-
-	ft_solve(map, x, y);
+	ft_solve(map);
 
 	draw_clear_piece(map,piece, x,y, 1);
 }

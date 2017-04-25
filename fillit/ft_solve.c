@@ -12,7 +12,7 @@
 
 #include "fill.h"
 
-void ft_solve(t_map *map, int x ,int y)
+void ft_solve(t_map *map)
 {
 	int x_size;
 	int y_size;
@@ -31,6 +31,7 @@ void ft_solve(t_map *map, int x ,int y)
 			draw_empty_map(map->best_map);
 			ft_save(map);
 			ft_print_map(map);
+			printf("coucou\n");
 		}	
 		return ;
 

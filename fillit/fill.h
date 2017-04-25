@@ -44,7 +44,7 @@ typedef struct s_map
 }				t_map;
 
 
-void ft_solve(t_map *map,int x, int y);
+void ft_solve(t_map *map);
 int check_mate(char *str, int i, int countx, int county);
 int check_error(int countbox, int placebox);
 int ft_golst(char *str);

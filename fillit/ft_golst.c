@@ -62,7 +62,7 @@ int	ft_golst(char *str)
 //		lst = lst->next;
 //	}
 	map = init_map(lst);
-	ft_solve(map, -1, -1);
+	ft_solve(map);
 	return (1);
 }
 
@@ -129,8 +129,8 @@ t_map *init_map(t_piece *lst)
 	map->lst_piece = lst;
 	printf("jjjj:%c\n i %d\n",lst->letter, i );
 	i = i * 4;
-	map->size_map = i/2;
-	map->best_size = i/2;
+	map->size_map = 6;
+	map->best_size = 7;
 	if(!(map->map = (char **)malloc(sizeof(char*) * (map->size_map + 1))))
 		return (0);
 	if(!(map->best_map = (char **)malloc(sizeof(char*) * (map->size_map + 1))))
