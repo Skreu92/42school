@@ -6,52 +6,44 @@
 /*   By: hdelanoe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 15:14:35 by hdelanoe          #+#    #+#             */
-/*   Updated: 2017/04/22 11:05:56 by etranchi         ###   ########.fr       */
+/*   Updated: 2017/04/26 12:46:21 by hdelanoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <stdio.h>
 #include "fill.h"
 
+static int	ft_lstsize(t_piece *lst)
+{
+    int	i;
+    
+    i = 0;
+    if (lst == NULL)
+        return (0);
+    while (lst != NULL)
+    {
+        lst = lst->next;
+        i++;
+    }
+    return (i);
+}
 
 int	main(int argc, char **argv)
 {
-	char	buff;
-	int		fd;
-	char	*str;
-	size_t	i;
-	
-	if (argc != 2)
-	{
-		if (argc < 2)
-			write(2, "File name missing.\n", 19);
-		else if (argc > 2)
-			write(2, "Too many arguments.\n", 20);
-		write(2, "Fillit <file name>\n", 19);
-		return (0);
-	}
-	i = 0;
-	fd = open(argv[1], O_RDONLY);
-	while (read(fd, &buff, 1) != 0)
-		i++;
-	if(!(str = (char*)malloc(sizeof(char) * i)))
-		return (0);
-	close (fd);
-	i = 0;
-	fd = open(argv[1], O_RDONLY);
-	while (read(fd, &buff, 1) != 0)
-	{
-		str[i] = buff;
-		i++;
-	}
-	str[i] = '\0';
-	if (!(ft_golst(str)))
-	{
-		write(2, "File is unvalid.\n", 17);
-		return (0);
-	}
-	return (0);
+    char    *str;
+    t_piece *lst;
+    t_map   *map;
+    
+    if(!(str = ft_read(argc, argv)))
+        return (0);
+    if(!(lst = init_lst(str)))
+       return (0);
+    if (!(map = init_map(lst, (ft_lstsize(lst)))))
+        return (0);
+    ft_solve(map);
+    ft_print_map(map);
+    free(map);
+    return (0);
 }

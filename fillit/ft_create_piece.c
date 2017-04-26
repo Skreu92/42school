@@ -6,28 +6,28 @@
 /*   By: etranchi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 11:13:24 by etranchi          #+#    #+#             */
-/*   Updated: 2017/04/22 11:13:40 by etranchi         ###   ########.fr       */
+/*   Updated: 2017/04/26 11:33:02 by hdelanoe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fill.h"
 
-t_piece *malloc_piece(void)
+t_piece	*malloc_piece(void)
 {
 	t_piece *piece;
 
-	if(!(piece = (t_piece *)malloc(sizeof(t_piece))))
+	if (!(piece = (t_piece *)malloc(sizeof(t_piece))))
 		return (NULL);
-	if(!(piece->init = (t_tuple *)malloc(sizeof(t_tuple))))
+	if (!(piece->init = (t_tuple *)malloc(sizeof(t_tuple))))
 		return (NULL);
 	set_zero_tuple(piece->init);
-	if(!(piece->first = (t_tuple *)malloc(sizeof(t_tuple))))
+	if (!(piece->first = (t_tuple *)malloc(sizeof(t_tuple))))
 		return (NULL);
 	set_zero_tuple(piece->first);
-	if(!(piece->second = (t_tuple *)malloc(sizeof(t_tuple))))
+	if (!(piece->second = (t_tuple *)malloc(sizeof(t_tuple))))
 		return (NULL);
 	set_zero_tuple(piece->second);
-	if(!(piece->third = (t_tuple *)malloc(sizeof(t_tuple))))
+	if (!(piece->third = (t_tuple *)malloc(sizeof(t_tuple))))
 		return (NULL);
 	set_zero_tuple(piece->third);
 	if (!(piece->next = (t_piece *)malloc(sizeof(t_piece))))
@@ -42,13 +42,11 @@ void	set_zero_tuple(t_tuple *tuple)
 	tuple->y = 0;
 }
 
-
-
-t_piece *create_piece(char *str, int nb_tetri)
+t_piece	*create_piece(char *str, int nb_tetri)
 {
-	t_piece *piece;
-	int i;
-	int nb;
+	t_piece	*piece;
+	int		i;
+	int		nb;
 
 	i = 0;
 	nb = 0;
@@ -60,62 +58,50 @@ t_piece *create_piece(char *str, int nb_tetri)
 	{
 		if (str[i] == '#')
 		{
-			if (str[i] == '#')
-			{
-				if (!(ft_set_tuple(piece, nb, i)))
-						return (NULL);
-				nb++;
-			}
+			if (!(ft_set_tuple(piece, nb, i)))
+				return (NULL);
+			nb++;
 		}
 		i++;
 	}
 	return (piece);
 }
 
+void	init_tuple(t_tuple *tuple, int ref_x, int ref_y, int i)
+{
+	tuple->x = (i % 5) - ref_x;
+	tuple->y = (i / 5) - ref_y;
+}
 
-int ft_set_tuple(t_piece *piece, int nb, int i)
+int		ft_set_tuple(t_piece *piece, int nb, int i)
 {
 	int ref_x;
 	int ref_y;
-	
+
 	if (piece == NULL)
 		return (0);
 	ref_x = piece->init->x;
 	ref_y = piece->init->y;
 	if (nb == 0)
-	{
-		piece->init->x = (i % 5) - ref_x;
-		piece->init->y = (i / 5) - ref_y;
-	}
+		init_tuple(piece->init, ref_x, ref_y, i);
 	if (nb == 1)
-	{
-		piece->first->x = (i % 5) - ref_x;
-		piece->first->y = (i / 5) - ref_y;
-	}
+		init_tuple(piece->first, ref_x, ref_y, i);
 	if (nb == 2)
-	{
-		piece->second->x = (i % 5) - ref_x;
-		piece->second->y = (i / 5) - ref_y;
-	}
+		init_tuple(piece->second, ref_x, ref_y, i);
 	if (nb == 3)
-	{
-		piece->third->x = (i % 5) - ref_x;
-		piece->third->y = (i / 5) - ref_y;
-	}
+		init_tuple(piece->third, ref_x, ref_y, i);
 	return (1);
 }
 
-t_piece *add_piece_tab(t_piece *lst, t_piece *piece)
+t_piece	*add_piece_tab(t_piece *lst, t_piece *piece)
 {
 	if (!(lst->letter >= 'A' && lst->letter <= 'Z'))
 	{
-		printf("piece:%c\n", piece->letter);
 		lst = piece;
 		return (lst);
 	}
 	while (lst->next)
 		lst = lst->next;
 	lst->next = piece;
-	printf("lst:%c\n", lst->next->letter);
 	return (lst);
 }
