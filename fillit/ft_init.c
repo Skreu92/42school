@@ -49,8 +49,18 @@ int		get_square(int size)
 		i++;
 	if ((i * i) > size)
 		i = i - 1;
-	if (size >= 11)
-		i++;
+	if (size == 1)
+		return (0);
+	if (size == 8)
+		return (3);
+	if (size > 9 && size < 15)
+		return (4);
+	if (size >= 15 && size < 20)
+		return (5);
+	if (size >= 20 && size < 25)
+		return (6);
+	if (size >= 25)
+		return (8);
 	return (i);
 }
 
