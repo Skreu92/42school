@@ -6,7 +6,7 @@
 /*   By: hdelanoe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 15:14:35 by hdelanoe          #+#    #+#             */
-/*   Updated: 2017/04/26 12:46:21 by hdelanoe         ###   ########.fr       */
+/*   Updated: 2017/04/27 12:21:41 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,47 @@
 
 static int	ft_lstsize(t_piece *lst)
 {
-    int	i;
-    
-    i = 0;
-    if (lst == NULL)
-        return (0);
-    while (lst != NULL)
-    {
-        lst = lst->next;
-        i++;
-    }
-    return (i);
+	int	i;
+
+	i = 0;
+	if (lst == NULL)
+		return (0);
+	while (lst != NULL)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
 }
 
-int	main(int argc, char **argv)
+void		ft_save(t_map *map)
 {
-    char    *str;
-    t_piece *lst;
-    t_map   *map;
-    
-    if(!(str = ft_read(argc, argv)))
-        return (0);
-    if(!(lst = init_lst(str)))
-       return (0);
-    if (!(map = init_map(lst, (ft_lstsize(lst)))))
-        return (0);
-    ft_solve(map);
-    ft_print_map(map);
-    free(map);
-    return (0);
+	int		y;
+	int		x;
+
+	y = -1;
+	while (++y < map->best_size)
+	{
+		x = -1;
+		while (++x < map->best_size)
+			map->best_map[y][x] = map->map[y][x];
+	}
+}
+
+int			main(int argc, char **argv)
+{
+	char	*str;
+	t_piece	*lst;
+	t_map	*map;
+
+	if (!(str = ft_read(argc, argv)))
+		return (0);
+	if (!(lst = init_lst(str)))
+		return (0);
+	if (!(map = init_map(lst, (ft_lstsize(lst)))))
+		return (0);
+	ft_solve(map);
+	ft_print_map(map);
+	free(map);
+	return (0);
 }

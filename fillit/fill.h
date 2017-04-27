@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <fcntl.h>
 
 typedef struct	s_tuple
 {
@@ -42,6 +43,10 @@ typedef struct	s_map
 	int		best_size;
 }				t_map;
 
+void 	new_map_to_save(t_map *map);
+int		init_char_map(t_map *map);
+int 	get_square(int size);
+int		add_placebox(char *str, int i, int j);
 void			ft_solve(t_map *map);
 int				check_mate(char *str);
 char			*ft_read(int argc, char **argv);
@@ -59,8 +64,8 @@ t_map			*init_map(t_piece *lst, int size);
 int				try_put_piece(t_map *map, int x, int y, int nb_piece);
 void			draw_empty_map(t_map *map);
 void			ft_may_pose(t_map *map, t_piece *piece, int x, int y);
-void			draw_clear_piece(t_map *map, t_piece *piece,
-				int x, int y, int value);
+void			draw_piece(t_map *map, t_piece *piece, int x, int y);
+void			clear_piece(t_map *map, t_piece *piece, int x, int y);
 int				check_value_tuple(t_map *map, int x, int y, t_tuple *tuple);
 void			ft_print_map(t_map *map);
 void			check_all_piece_put(t_map *map);

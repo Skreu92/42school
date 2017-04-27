@@ -6,17 +6,13 @@
 /*   By: hdelanoe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/18 17:07:50 by hdelanoe          #+#    #+#             */
-/*   Updated: 2017/04/25 17:06:02 by hdelanoe         ###   ########.fr       */
+/*   Updated: 2017/04/27 12:56:02 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "fill.h"
 
-int	check_error(int countbox, int placebox)
+int		check_error(int countbox, int placebox)
 {
 	if (countbox != 4)
 	{
@@ -31,43 +27,42 @@ int	check_error(int countbox, int placebox)
 	return (1);
 }
 
-int	check_mate(char *str)
+int		add_placebox(char *str, int i, int j)
+{
+	int placebox;
+
+	placebox = 0;
+	if (str[i + j + 1] == '#' && j < 21)
+		placebox++;
+	if (str[i + j + 5] == '#' && j < 16)
+		placebox++;
+	if (str[i + j - 1] == '#' && j > 0)
+		placebox++;
+	if (str[i + j - 5] == '#' && j > 4)
+		placebox++;
+	return (placebox);
+}
+
+int		check_mate(char *str)
 {
 	int i;
 	int j;
 	int placebox;
 	int countbox;
-	
+
 	i = 0;
 	while (str[i] != '\0')
 	{
 		countbox = 0;
 		placebox = 0;
-		j = 0;
-		while (j <= 21)
+		j = -1;
+		while (++j <= 21)
 		{
-			if (str[i + j] == '#')
+			if (str[i + j] == '#' && str[i + j] != '\0')
 			{
-				
-                if (str[i + j + 1] == '#' && j < 21)
-                {
-                    placebox++;
-                }
-				if (str[i + j + 5] == '#' && j < 16)
-                {
-                    placebox++;
-                }
-				if (str[i + j - 1] == '#' && j > 0)
-                {
-                    placebox++;
-                }
-				if (str[i + j - 5] == '#' && j > 4)
-                {
-                    placebox++;
-                }
+				placebox += add_placebox(str, i, j);
 				countbox++;
 			}
-            j++;
 		}
 		if (!(check_error(countbox, placebox)))
 			return (0);
@@ -76,7 +71,7 @@ int	check_mate(char *str)
 	return (1);
 }
 
-int	check_str(char *str)
+int		check_str(char *str)
 {
 	size_t	i;
 	int		county;
@@ -104,7 +99,7 @@ int	check_str(char *str)
 	return (1);
 }
 
-int	ft_check(char *str)
+int		ft_check(char *str)
 {
 	if (!(check_str(str)))
 		return (0);

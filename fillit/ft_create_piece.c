@@ -12,30 +12,6 @@
 
 #include "fill.h"
 
-t_piece	*malloc_piece(void)
-{
-	t_piece *piece;
-
-	if (!(piece = (t_piece *)malloc(sizeof(t_piece))))
-		return (NULL);
-	if (!(piece->init = (t_tuple *)malloc(sizeof(t_tuple))))
-		return (NULL);
-	set_zero_tuple(piece->init);
-	if (!(piece->first = (t_tuple *)malloc(sizeof(t_tuple))))
-		return (NULL);
-	set_zero_tuple(piece->first);
-	if (!(piece->second = (t_tuple *)malloc(sizeof(t_tuple))))
-		return (NULL);
-	set_zero_tuple(piece->second);
-	if (!(piece->third = (t_tuple *)malloc(sizeof(t_tuple))))
-		return (NULL);
-	set_zero_tuple(piece->third);
-	if (!(piece->next = (t_piece *)malloc(sizeof(t_piece))))
-		return (NULL);
-	piece->next = NULL;
-	return (piece);
-}
-
 void	set_zero_tuple(t_tuple *tuple)
 {
 	tuple->x = 0;

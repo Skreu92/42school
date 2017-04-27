@@ -44,37 +44,56 @@ t_piece	*init_lst(char *str)
 	return (lst);
 }
 
+int		get_square(int size)
+{
+	int i;
+
+	i = 1;
+	while ((i * i) < size)
+		i++;
+	if ((i * i) == size)
+		return (i);
+	else
+		return (i - 1);
+}
+
+int		init_char_map(t_map *map)
+{
+	int size;
+	int i;
+
+	size = -1;
+	while (++size < map->size_map)
+	{
+		if (!(map->map[size] = (char *)malloc(sizeof(char) *
+			(map->size_map + 1))))
+			return (0);
+		if (!(map->best_map[size] = (char *)malloc(sizeof(char)
+			* (map->size_map + 1))))
+			return (0);
+		map->map[size][map->size_map] = '\0';
+		i = -1;
+		while (++i < map->size_map)
+			map->map[size][i] = '.';
+	}
+	return (1);
+}
+
 t_map	*init_map(t_piece *lst, int size)
 {
 	t_map	*map;
-	int		i;
 
 	if (!(map = (t_map *)malloc(sizeof(t_map))))
 		return (0);
 	map->lst_piece = lst;
-	printf("siwze : %d\n",size );
-	map->size_map = 4 ;
+	map->size_map = 4 + get_square(size);
 	map->best_size = 10000;
 	if (!(map->map = (char **)malloc(sizeof(char*) * (map->size_map + 1))))
 		return (0);
 	if (!(map->best_map = (char **)malloc(sizeof(char*) * (map->size_map + 1))))
 		return (0);
 	map->map[map->size_map] = NULL;
-	size = 0;
-	while (size < map->size_map)
-	{
-		if (!(map->map[size] = (char *)malloc(sizeof(char) * (map->size_map + 1))))
-			return (0);
-		if (!(map->best_map[size] = (char *)malloc(sizeof(char) * (map->size_map + 1))))
-			return (0);
-		map->map[size][map->size_map] = '\0';
-		i = 0;
-		while (i < map->size_map)
-		{
-			map->map[size][i] = '.';
-			i++;
-		}
-		size++;
-	}
+	if (!(init_char_map(map)))
+		return (0);
 	return (map);
 }
