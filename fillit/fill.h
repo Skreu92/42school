@@ -6,7 +6,7 @@
 /*   By: etranchi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 11:06:21 by etranchi          #+#    #+#             */
-/*   Updated: 2017/04/27 13:11:15 by etranchi         ###   ########.fr       */
+/*   Updated: 2017/04/27 15:07:05 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FILL_H
 # include <string.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
 
@@ -43,6 +42,7 @@ typedef struct		s_map
 	int				best_size;
 }					t_map;
 
+int					ft_check_plus_plus(char *str, int i);
 void				new_map_to_save(t_map *map);
 int					init_char_map(t_map *map);
 int					get_square(int size);

@@ -10,10 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "fill.h"
 
 t_piece	*init_lst(char *str)
@@ -51,10 +47,11 @@ int		get_square(int size)
 	i = 1;
 	while ((i * i) < size)
 		i++;
-	if ((i * i) == size)
-		return (i);
-	else
-		return (i - 1);
+	if ((i * i) > size)
+		i = i - 1;
+	if (size >= 11)
+		i++;
+	return (i);
 }
 
 int		init_char_map(t_map *map)

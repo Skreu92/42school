@@ -15,15 +15,9 @@
 int		check_error(int countbox, int placebox)
 {
 	if (countbox != 4)
-	{
-		write(2, "bad count of #.\n", 17);
 		return (0);
-	}
 	if (placebox != 6 && placebox != 8)
-	{
-		write(2, "bad placement of #.\n", 21);
 		return (0);
-	}
 	return (1);
 }
 
@@ -55,14 +49,15 @@ int		check_mate(char *str)
 	{
 		countbox = 0;
 		placebox = 0;
-		j = -1;
-		while (++j <= 21)
+		j = 0;
+		while (j < 21 && str[i + j] != '\0')
 		{
-			if (str[i + j] == '#' && str[i + j] != '\0')
+			if (str[i + j] == '#')
 			{
 				placebox += add_placebox(str, i, j);
 				countbox++;
 			}
+			j++;
 		}
 		if (!(check_error(countbox, placebox)))
 			return (0);
@@ -80,8 +75,8 @@ int		check_str(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		county = 0;
-		while (county != 4)
+		county = -1;
+		while (++county != 4)
 		{
 			countx = 0;
 			while (str[i] && str[i] != '\n')
@@ -92,18 +87,28 @@ int		check_str(char *str)
 			if (countx != 4)
 				return (0);
 			i++;
-			county++;
 		}
-		i++;
+		i += ft_check_plus_plus(str, i);
 	}
 	return (1);
 }
 
 int		ft_check(char *str)
 {
+	if (str[0] == '\0')
+	{
+		write(1, "error\n", 6);
+		return (0);
+	}
 	if (!(check_str(str)))
+	{
+		write(1, "error\n", 6);
 		return (0);
+	}
 	if (!(check_mate(str)))
+	{
+		write(1, "error\n", 6);
 		return (0);
+	}
 	return (1);
 }

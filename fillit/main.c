@@ -6,13 +6,10 @@
 /*   By: hdelanoe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 15:14:35 by hdelanoe          #+#    #+#             */
-/*   Updated: 2017/04/27 12:21:41 by etranchi         ###   ########.fr       */
+/*   Updated: 2017/04/27 15:08:36 by etranchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h>
 #include "fill.h"
 
 static int	ft_lstsize(t_piece *lst)
@@ -59,5 +56,17 @@ int			main(int argc, char **argv)
 	ft_solve(map);
 	ft_print_map(map);
 	free(map);
+	return (0);
+}
+
+int			ft_check_plus_plus(char *str, int i)
+{
+	if (str[i] != '\n' && str[i] != '\0')
+	{
+		write(1, "error", 6);
+		exit(1);
+	}
+	if (str[i] == '\n' && str[i + 1] != '\0')
+		return (1);
 	return (0);
 }
